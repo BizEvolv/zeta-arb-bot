@@ -1,55 +1,21 @@
-# Zeta Arbitrage Bot — Uniswap V3 Quoter + Dynamic Fee Tiers
+# ZetaChain Arbitrage Bot
 
-This repo deploys `PureTrustlessArbitrageBotZetaQuoter` to ZetaChain using **GitHub Actions**.
+This repo contains a Uniswap V2/V3 arbitrage contract with Quoter V2 integration for ZetaChain.
 
-## Deployment via GitHub Actions (free)
+## Deploying
 
-1. Create a **private GitHub repo** and upload these files.
-2. Add **Actions Secrets** (Repo → Settings → Secrets and variables → Actions → New repository secret):
+1. Create a new GitHub repo and upload this project.
+2. Add the following secrets in **Repo → Settings → Secrets → Actions**:
 
-Required:
-- `PRIVATE_KEY` — deployer wallet (funded with ZETA)
-- `ZETA_TESTNET_RPC` — e.g. https://rpc.ankr.com/zetachain_evm_testnet
-- `ZETA_MAINNET_RPC` — e.g. https://rpc.ankr.com/zetachain
+- PRIVATE_KEY
+- ZETA_TESTNET_RPC
+- ZETA_MAINNET_RPC
+- UNI_V2_ROUTER
+- UNI_V3_ROUTER
+- UNI_V3_QUOTER_V2
+- WRAPPED_NATIVE
+- SUPPORTED_TOKENS
 
-Constructor params (chain-specific addresses — set as **Secrets** too):
-- `UNI_V2_ROUTER`
-- `UNI_V3_ROUTER`
-- `UNI_V3_QUOTER_V2`
-- `WRAPPED_NATIVE`
-- `SUPPORTED_TOKENS` — comma-separated addresses (e.g. 0x...,0x...,0x...)
-
-3. Go to **Actions** tab → run **Deploy Contract to ZetaChain** (or push to `main`).
-
-The job output will print:
-```
-✅ Arbitrage contract deployed at: 0xYourAddress
-```
-
-## Local usage
-
-```bash
-npm i
-cp .env.example .env  # fill with keys and RPCs
-npx hardhat compile
-npx hardhat run scripts/deploy.js --network zetatestnet
-```
-
-### .env.example
-```
-PRIVATE_KEY=0xyourkey
-ZETA_TESTNET_RPC=https://rpc.ankr.com/zetachain_evm_testnet
-ZETA_MAINNET_RPC=https://rpc.ankr.com/zetachain
-UNI_V2_ROUTER=0x...
-UNI_V3_ROUTER=0x...
-UNI_V3_QUOTER_V2=0x...
-WRAPPED_NATIVE=0x...
-SUPPORTED_TOKENS=0x...,0x...,0x...
-```
-
----
-
-### Security
-- Use a **fresh, low-balance** deployer key.
-- Review addresses and test on **testnet** first.
-- Contract is provided *as-is*; audit before mainnet.
+3. Go to **Actions** → **Deploy Contract to ZetaChain** → **Run workflow**.
+4. Choose either **Deploy to Testnet** or **Deploy to Mainnet**.
+5. The contract address will be printed in the logs.
