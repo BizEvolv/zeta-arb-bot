@@ -1,0 +1,67 @@
+name: Deploy Contract to ZetaChain
+
+on:
+  workflow_dispatch:  # 👈 manual trigger only
+
+jobs:
+  deploy-testnet:
+    name: Deploy to ZetaChain Testnet
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Compile contracts
+        run: npx hardhat compile
+
+      - name: Deploy
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          ZETA_TESTNET_RPC: ${{ secrets.ZETA_TESTNET_RPC }}
+          UNI_V2_ROUTER: ${{ secrets.UNI_V2_ROUTER }}
+          UNI_V3_ROUTER: ${{ secrets.UNI_V3_ROUTER }}
+          UNI_V3_QUOTER_V2: ${{ secrets.UNI_V3_QUOTER_V2 }}
+          WRAPPED_NATIVE: ${{ secrets.WRAPPED_NATIVE }}
+          SUPPORTED_TOKENS: ${{ secrets.SUPPORTED_TOKENS }}
+        run: |
+          npx hardhat run scripts/deploy.js --network zetatestnet
+
+  deploy-mainnet:
+    name: Deploy to ZetaChain Mainnet
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Compile contracts
+        run: npx hardhat compile
+
+      - name: Deploy
+        env:
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          ZETA_MAINNET_RPC: ${{ secrets.ZETA_MAINNET_RPC }}
+          UNI_V2_ROUTER: ${{ secrets.UNI_V2_ROUTER }}
+          UNI_V3_ROUTER: ${{ secrets.UNI_V3_ROUTER }}
+          UNI_V3_QUOTER_V2: ${{ secrets.UNI_V3_QUOTER_V2 }}
+          WRAPPED_NATIVE: ${{ secrets.WRAPPED_NATIVE }}
+          SUPPORTED_TOKENS: ${{ secrets.SUPPORTED_TOKENS }}
+        run: |
+          npx hardhat run scripts/deploy.js --network zetamainnet
